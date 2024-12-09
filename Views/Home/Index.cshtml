@@ -1,0 +1,78 @@
+﻿@model IEnumerable<BarberShop.Models.Calisan>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container text-center mt-4">
+    <h1 class="mb-5">Hoş geldiniz!</h1>
+
+    <div class="mb-5">
+        <h3>Salon Çalışma Saatlerimiz</h3>
+        <ul class="list-group list-group-flush">
+            @foreach (var day in ViewBag.CalismaSaatleri)
+            {
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <strong>@day.Key</strong>
+                    <span>@day.Value</span>
+                </li>
+            }
+        </ul>
+    </div>
+
+    <div class="mb-5">
+        <h3>Çalışanlarımız</h3>
+        <div class="row">
+            @foreach (var calisan in Model)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card text-white bg-dark">
+                        <div class="card-body">
+                            <h5 class="card-title">@calisan.Adi @calisan.Soyadi</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Barber</h6>
+                            <p>Uzmanlıkları</p>
+
+                            @if (calisan.Islemler != null && calisan.Islemler.Any())
+                            {
+                                <ul>
+                                    @foreach (var islem in calisan.Islemler)
+                                    {
+                                        <li>
+                                            <strong>@islem.Adi</strong>
+                                        </li>
+                                    }
+                                </ul>
+                            }
+                            else
+                            {
+                                <p>Uzmanlıkları yok!</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="mb-5">
+        <h3>Hizmetlerimizi ve Fiyatlarımızı İnceleyin</h3>
+        <table class="table table-dark table-striped">
+            <thead>
+                <tr>
+                    <th>Hizmet Adı</th>
+                    <th>Süre (dakika)</th>
+                    <th>Ücret</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var islem in Model.SelectMany(c => c.Islemler).Distinct())
+                {
+                    <tr>
+                        <td>@islem.Adi</td>
+                        <td>@islem.Sure</td>
+                        <td>@islem.Ucret ₺</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

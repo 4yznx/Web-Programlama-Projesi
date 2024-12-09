@@ -1,0 +1,48 @@
+﻿@model IEnumerable<BarberShop.Models.Calisan>
+
+<div class="container">
+    <h2>Çalışan Listesi</h2>
+    @if (TempData["msj"] != null)
+    {
+        <div class="alert alert-success">@TempData["msj"]</div>
+    }
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Adı</th>
+                <th>Soyadı</th>
+                <th>Uzmanlıklar</th>
+                <th>İşlemler</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var calisan in Model)
+            {
+                <tr>
+                    <td>@calisan.Adi</td>
+                    <td>@calisan.Soyadi</td>
+                    <td>
+                        @if (calisan.Islemler != null && calisan.Islemler.Any())
+                        {
+                            <ul>
+                                @foreach (var islem in calisan.Islemler)
+                                {
+                                    <li>@islem.Adi</li>
+                                }
+                            </ul>
+                        }
+                        else
+                        {
+                            <span>Uzmanlık bilgisi yok</span>
+                        }
+                    </td>
+                    <td>
+                        <a href="@Url.Action("CalisanDuzenle", "Calisan", new { id = calisan.CalisanId })" class="btn btn-primary">Düzenle</a>
+                        <a href="@Url.Action("CalisanSil", "Calisan", new { id = calisan.CalisanId })" class="btn btn-danger">Sil</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a href="@Url.Action("CalisanEkle", "Calisan")" class="btn btn-success">Yeni Çalışan Ekle</a>
+</div>

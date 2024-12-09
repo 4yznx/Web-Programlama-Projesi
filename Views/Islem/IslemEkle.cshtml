@@ -1,0 +1,23 @@
+﻿@model BarberShop.Models.Islem
+@{
+    ViewBag.Title = "Yeni İşlem Ekle";
+}
+
+<div class="container">
+    <h2>Yeni İşlem Ekle</h2>
+    <form asp-action="IslemEkle" method="post">
+        <div class="mb-3">
+            <label for="Adi" class="form-label">İşlem Adı</label>
+            <input type="text" class="form-control" id="Adi" name="Adi" required />
+        </div>
+        <div class="mb-3">
+            <label for="Sure" class="form-label">Süre (dakika)</label>
+            <input type="number" class="form-control" id="Sure" name="Sure" required />
+        </div>
+        <div class="mb-3">
+            <label for="Ucret" class="form-label">Ücret</label>
+            <input type="number" class="form-control" id="Ucret" name="Ucret" step="0.01" required />
+        </div>
+        <button type="submit" class="btn btn-primary">Kaydet</button>
+    </form>
+</div>

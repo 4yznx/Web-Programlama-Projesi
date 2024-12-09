@@ -1,0 +1,16 @@
+﻿@model BarberShop.Models.Islem
+@{
+    ViewBag.Title = "İşlem Sil";
+}
+
+<div class="container">
+    <h2>İşlem Sil</h2>
+    <div class="alert alert-warning">
+        <p><strong>@Model.Adi</strong> adlı işlemi silmek istediğinizden emin misiniz?</p>
+    </div>
+    <form asp-action="IslemSil" method="post">
+        <input type="hidden" name="id" value="@Model.IslemID" />
+        <button type="submit" class="btn btn-danger">Sil</button>
+        <a href="@Url.Action("Index", "Islem")" class="btn btn-secondary">İptal</a>
+    </form>
+</div>

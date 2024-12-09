@@ -1,0 +1,31 @@
+﻿@model BarberShop.Models.Calisan
+@{
+    ViewBag.Title = "Çalışan Düzenle";
+}
+
+<div class="container">
+    <h2>Çalışan Düzenle</h2>
+    <form asp-action="CalisanDuzenle" method="post">
+        <input type="hidden" name="CalisanId" value="@Model.CalisanId" />
+        <div class="mb-3">
+            <label for="Adi" class="form-label">Adı</label>
+            <input type="text" class="form-control" id="Adi" name="Adi" value="@Model.Adi" required />
+        </div>
+        <div class="mb-3">
+            <label for="Soyadi" class="form-label">Soyadı</label>
+            <input type="text" class="form-control" id="Soyadi" name="Soyadi" value="@Model.Soyadi" required />
+        </div>
+        <div class="mb-3">
+            <label for="Islemler" class="form-label">Uzmanlıklar</label>
+            @foreach (var islem in ViewBag.Islemler as List<BarberShop.Models.Islem>)
+            {
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="islem_@islem.IslemID" name="SelectedIslemIds" value="@islem.IslemID"
+                    @(Model.Islemler != null && Model.Islemler.Any(i => i.IslemID == islem.IslemID) ? "checked" : "") />
+                    <label class="form-check-label" for="islem_@islem.IslemID">@islem.Adi</label>
+                </div>
+            }
+        </div>
+        <button type="submit" class="btn btn-primary">Kaydet</button>
+    </form>
+</div>
