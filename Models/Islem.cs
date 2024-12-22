@@ -20,7 +20,6 @@ namespace BarberShop.Models
         [DataType(DataType.Currency)]
         [Display(Name = "Ücret")]
         public decimal Ucret { get; set; }
-        public ICollection<Calisan> Calisanlar { get; set; } = new List<Calisan>();
-
+        public ICollection<CalisanIslem> CalisanIslemler { get; set; } = new List<CalisanIslem>();
     }
 }

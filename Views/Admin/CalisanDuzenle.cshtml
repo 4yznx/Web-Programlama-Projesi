@@ -1,0 +1,36 @@
+﻿@model Calisan
+
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Çalışan Düzenle";
+}
+
+<h2>Çalışan Düzenle</h2>
+
+<form asp-action="CalisanDuzenle" method="post">
+    <input asp-for="CalisanID" type="hidden" />
+
+    <div class="form-group">
+        <label>Adı</label>
+        <input asp-for="FullName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Başlangıç Saati</label>
+        <input asp-for="BaslangicSaati" type="time" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Bitiş Saati</label>
+        <input asp-for="BitisSaati" type="time" class="form-control" />
+    </div>
+    <br />
+    <h4>Uzmanlıklar</h4>
+    @foreach (var islem in ViewBag.Islemler)
+    {
+        var isChecked = ViewBag.SelectedIslemler.Contains(islem.IslemID);
+        <div>
+            <input type="checkbox" name="SelectedIslemIds" value="@islem.IslemID" @(isChecked ? "checked" : "") />
+            <label>@islem.Adi</label>
+        </div>
+    }
+    <button type="submit" class="btn btn-warning mt-3">Güncelle</button>
+</form>

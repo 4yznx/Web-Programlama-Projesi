@@ -1,0 +1,14 @@
+﻿@model Calisan
+
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Çalışan Sil";
+}
+
+<p>Bu çalışanı silmek ister misiniz?</p>
+
+<form asp-action="CalisanSilConfirmed" method="post">
+    <input type="hidden" name="id" value="@Model.CalisanID" />
+    <button type="submit" class="btn btn-danger">Sil</button>
+    <a asp-action="CalisanListesi" class="btn btn-secondary">Vazgeç</a>
+</form>

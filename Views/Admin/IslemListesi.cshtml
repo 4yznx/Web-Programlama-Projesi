@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Islem>
+
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "İşlem Listesi";
+}
+
+<h2>İşlem Listesi</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>İşlem Adı</th>
+            <th>Süre</th>
+            <th>Ücret</th>
+            <th>İşlem Yap</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var islem in Model)
+        {
+            <tr>
+                <td>@islem.Adi</td>
+                <td>@islem.Sure dakika</td>
+                <td>@islem.Ucret ₺</td>
+                <td>
+                    <a asp-action="IslemDuzenle" asp-route-id="@islem.IslemID" class="btn btn-warning btn-sm">Düzenle</a>
+                    <a asp-action="IslemSil" asp-route-id="@islem.IslemID" class="btn btn-danger btn-sm">Sil</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

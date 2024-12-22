@@ -1,0 +1,36 @@
+﻿@model List<RolSecici>
+
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Kullanıcı Yönetimi";
+}
+
+<h2>Kullanıcı Yönetimi</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Rol</th>
+            <th>İşlem Yap</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Email</td>
+                <td>
+                    @foreach (var role in user.Roles)
+                    {
+                        <span>@role</span>
+                    }
+                </td>
+                <td>
+                    <a asp-action="EditUserRole" asp-route-id="@user.UserId" class="btn btn-warning">Rolü Düzenle</a>
+                    <a asp-action="DeleteUserConfirm" asp-route-id="@user.UserId" class="btn btn-danger">Sil</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

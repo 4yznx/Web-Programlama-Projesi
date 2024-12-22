@@ -9,19 +9,19 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container
 builder.Services.AddControllersWithViews();
 
-// Configure the database connection
+// Database connection
 builder.Services.AddDbContext<BarberDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MyConnection")));
 
 // Configure Identity services
 builder.Services.AddIdentity<Kullanici, IdentityRole>(options =>
 {
-    options.Password.RequireNonAlphanumeric = false; // No special characters required
-    options.Password.RequiredLength = 3;             // Minimum length of 3
-    options.Password.RequireUppercase = false;       // No uppercase letters required
-    options.Password.RequireLowercase = false;       // No lowercase letters required
-    options.Password.RequireDigit = false;           // No numbers required
-    options.User.RequireUniqueEmail = true;          // Enforce unique email
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequiredLength = 3;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireDigit = false;
+    options.User.RequireUniqueEmail = true;
 })
 .AddEntityFrameworkStores<BarberDbContext>()
 .AddDefaultTokenProviders();
@@ -29,18 +29,18 @@ builder.Services.AddIdentity<Kullanici, IdentityRole>(options =>
 // Configure cookie settings for authentication
 builder.Services.ConfigureApplicationCookie(options =>
 {
-    options.LoginPath = "/Account/Login";                // Redirect to login page for unauthenticated users
-    options.AccessDeniedPath = "/Account/AccessDenied";  // Redirect to access denied page
-    options.ExpireTimeSpan = TimeSpan.FromMinutes(20);   // Session timeout (20 minutes)
-    options.SlidingExpiration = true;                    // Sliding expiration enabled
+    options.LoginPath = "/Account/Login";
+    options.AccessDeniedPath = "/Account/AccessDenied";
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+    options.SlidingExpiration = true;
 });
 
 // Add session services
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(20); // Session timeout (20 minutes)
-    options.Cookie.HttpOnly = true;                // Enhance security
-    options.Cookie.IsEssential = true;             // Cookie is essential for the app
+    options.IdleTimeout = TimeSpan.FromMinutes(20);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
 });
 
 // Add memory cache (required for session)
@@ -52,7 +52,7 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
-    await UserRoleInitializer.InitializeAsync(services); // Ensure roles and admin exist
+    await KullaniciRolu.InitializeAsync(services);
 }
 
 // Configure error handling
@@ -63,14 +63,14 @@ if (!app.Environment.IsDevelopment())
 }
 
 // Middleware pipeline
-app.UseHttpsRedirection();    // Redirect HTTP to HTTPS
-app.UseStaticFiles();         // Serve static files from wwwroot
+app.UseHttpsRedirection();
+app.UseStaticFiles();
 
-app.UseRouting();             // Enable endpoint routing
+app.UseRouting();
 
-app.UseSession();             // Enable session middleware
-app.UseAuthentication();      // Enable authentication middleware
-app.UseAuthorization();       // Enable authorization middleware
+app.UseSession();
+app.UseAuthentication();
+app.UseAuthorization();
 
 // Map controller routes
 app.MapControllerRoute(
@@ -78,4 +78,4 @@ app.MapControllerRoute(
     pattern: "{controller=Admin}/{action=Index}/{id?}");
 
 // Run the application
-app.Run();
+app.Run();  

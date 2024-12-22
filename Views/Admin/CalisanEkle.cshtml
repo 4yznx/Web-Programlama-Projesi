@@ -1,0 +1,36 @@
+﻿@model Calisan
+
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Çalışan Ekle";
+}
+
+<h2>Yeni Çalışan Ekle</h2>
+
+<form asp-action="CalisanEkle" method="post">
+    <div class="form-group">
+        <label>Adı</label>
+        <input asp-for="FullName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Başlangıç Saati</label>
+        <input asp-for="BaslangicSaati" type="time" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Bitiş Saati</label>
+        <input asp-for="BitisSaati" type="time" class="form-control" />
+    </div>
+    <br />
+    <h4>Uzmanlıklar</h4>
+    @foreach (var islem in ViewBag.Islemler)
+    {
+        <div>
+            <input type="checkbox" name="SecilenIslemIds" value="@islem.IslemID" />
+            <label>@islem.Adi</label>
+        </div>
+    }
+
+    <button type="submit" class="btn btn-success mt-3">Kaydet</button>
+    <a asp-action="CalisanListesi" class="btn btn-secondary mt-3">Geri Dön</a>
+
+</form>

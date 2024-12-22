@@ -1,13 +1,12 @@
-﻿using BarberShop.Models;
-using BarberShop.ViewModels;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using BarberShop.ViewModels;
+using BarberShop.Models;
 
 namespace BarberShop.Controllers
 {
     public class AccountController : Controller
     {
-
         private readonly SignInManager<Kullanici> signInManager;
         private readonly UserManager<Kullanici> userManager;
 
@@ -16,39 +15,18 @@ namespace BarberShop.Controllers
             this.signInManager = signInManager;
             this.userManager = userManager;
         }
-
-        public IActionResult Login()
+        public IActionResult AccessDenied()
         {
             return View();
         }
-        [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
-
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    ModelState.AddModelError("", "Email or password is incorrect.");
-                    return View(model);
-                }
-            }
-
-            return View(model);
-        }
-
 
         public IActionResult Register()
         {
             return View();
         }
+
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterViewModel model)
+        public async Task<IActionResult> Register(Register model)
         {
             if (ModelState.IsValid)
             {
@@ -63,6 +41,15 @@ namespace BarberShop.Controllers
 
                 if (result.Succeeded)
                 {
+                    if (user.Email.EndsWith("@barbershop.com", StringComparison.OrdinalIgnoreCase))
+                    {
+                        await userManager.AddToRoleAsync(user, "Calisan");
+                    }
+                    else
+                    {
+                        await userManager.AddToRoleAsync(user, "Kullanici");
+                    }
+
                     return RedirectToAction("Login", "Account");
                 }
                 else
@@ -75,13 +62,56 @@ namespace BarberShop.Controllers
             }
             return View(model);
         }
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(Login model)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+
+                if (result.Succeeded)
+                {
+                    var user = await userManager.FindByEmailAsync(model.Email);
+
+                    if (user != null)
+                    {
+                        // Create session
+                        HttpContext.Session.SetString("UserEmail", user.Email);
+                        HttpContext.Session.SetString("UserName", user.FullName);
+
+                        if (await userManager.IsInRoleAsync(user, "Admin"))
+                        {
+                            return RedirectToAction("Index", "Admin");
+                        }
+
+                        if (await userManager.IsInRoleAsync(user, "Calisan"))
+                        {
+                            return RedirectToAction("Index", "Calisan");
+                        }
+
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Email veya şifre yanlış!");
+                }
+            }
+            return View(model);
+        }
+
         public IActionResult VerifyEmail()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> VerifyEmail(VerifyEmailViewModel model)
+        public async Task<IActionResult> VerifyEmail(VerifyEmail model)
         {
             if (ModelState.IsValid)
             {
@@ -89,8 +119,7 @@ namespace BarberShop.Controllers
 
                 if (user == null)
                 {
-                    ModelState.AddModelError("", "Something is wrong!");
-                    return View(model);
+                    ModelState.AddModelError("", "bir hata oluştu!");
                 }
                 else
                 {
@@ -108,11 +137,11 @@ namespace BarberShop.Controllers
                 return RedirectToAction("VerifyEmail", "Account");
             }
 
-            return View(new ChangePasswordViewModel { Email = username });
+            return View(new ChangePassword { Email = username });
         }
 
         [HttpPost]
-        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        public async Task<IActionResult> ChangePassword(ChangePassword model)
         {
             if (ModelState.IsValid)
             {
@@ -133,24 +162,22 @@ namespace BarberShop.Controllers
                             {
                                 ModelState.AddModelError("", error.Description);
                             }
-                            return View(model);
                         }
                     }
                     else
                     {
                         ModelState.AddModelError("", "Failed to remove the password.");
-                        return View(model);
                     }
                 }
                 else
                 {
                     ModelState.AddModelError("", "Email not found!");
-                    return View(model);
                 }
             }
 
             return View(model);
         }
+
         public async Task<IActionResult> Logout()
         {
             await signInManager.SignOutAsync();

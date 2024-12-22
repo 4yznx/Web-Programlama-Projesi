@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Calisan>
+
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Çalışan Listesi";
+}
+
+<h2>Çalışan Listesi</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Adı</th>
+            <th>Başlangıç Saati</th>
+            <th>Bitiş Saati</th>
+            <th>Hizmetler</th>
+            <th>İşlem Yap</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var calisan in Model)
+        {
+            <tr>
+                <td>@calisan.FullName</td>
+                <td>@calisan.BaslangicSaati</td>
+                <td>@calisan.BitisSaati</td>
+                <td>
+                    @foreach (var islem in calisan.CalisanIslemler.Select(ci => ci.Islem))
+                    {
+                        <span class="badge bg-secondary">@islem.Adi</span>
+                    }
+                </td>
+                <td>
+                    <a asp-action="CalisanDuzenle" asp-route-id="@calisan.CalisanID" class="btn btn-warning btn-sm">Düzenle</a>
+                    <a asp-action="CalisanSil" asp-route-id="@calisan.CalisanID" class="btn btn-danger btn-sm">Sil</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,14 @@
+﻿@model Islem
+
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "İşlem Sil";
+}
+
+<p>Bu işlemi silmek ister misiniz?</p>
+
+<form asp-action="IslemSilConfirmed" method="post">
+    <input type="hidden" name="id" value="@Model.IslemID" />
+    <button type="submit" class="btn btn-danger">Sil</button>
+    <a asp-action="IslemListesi" class="btn btn-secondary">Vazgeç</a>
+</form>

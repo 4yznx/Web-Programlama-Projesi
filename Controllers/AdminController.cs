@@ -1,27 +1,31 @@
-using BarberShop.Data;
-using BarberShop.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
+using BarberShop.Models;
 
 namespace BarberShop.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private readonly BarberDbContext _context;
+        private readonly UserManager<Kullanici> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public AdminController(BarberDbContext context)
+        public AdminController(BarberDbContext context, UserManager<Kullanici> userManager, RoleManager<IdentityRole> roleManager)
         {
             _context = context;
+            _userManager = userManager;
+            _roleManager = roleManager;
         }
 
-        // --- INDEX ---
         public IActionResult Index()
         {
             ViewData["Layout"] = "_LayoutAdmin.cshtml";
             return View();
         }
 
-        // --- CALISAN LISTESI ---
         public IActionResult CalisanListesi()
         {
             var calisanlar = _context.Calisanlar
@@ -31,7 +35,6 @@ namespace BarberShop.Controllers
             return View(calisanlar);
         }
 
-        // --- CALISAN EKLE ---
         public IActionResult CalisanEkle()
         {
             ViewBag.Islemler = _context.Islemler.ToList();
@@ -43,31 +46,27 @@ namespace BarberShop.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Add Calisan
                 _context.Calisanlar.Add(calisan);
                 _context.SaveChanges();
 
-                // Add selected Islem entries in CalisanIslem
                 foreach (var islemId in SecilenIslemIds)
                 {
                     var calisanIslem = new CalisanIslem
                     {
-                        CalisanId = calisan.CalisanID,
+                        CalisanID = calisan.CalisanID,
                         IslemID = islemId
                     };
-                    _context.Add(calisanIslem);
+                    _context.CalisanIslemler.Add(calisanIslem);
                 }
 
                 _context.SaveChanges();
-                TempData["msj"] = $"{calisan.Adi} {calisan.Soyadi} başarıyla eklendi.";
+                TempData["msj"] = $"{calisan.FullName} başarıyla eklendi.";
                 return RedirectToAction("CalisanListesi");
             }
 
             ViewBag.Islemler = _context.Islemler.ToList();
             return View(calisan);
         }
-
-        // --- CALISAN DUZENLE ---
         public IActionResult CalisanDuzenle(int id)
         {
             var calisan = _context.Calisanlar
@@ -95,31 +94,28 @@ namespace BarberShop.Controllers
                 if (existingCalisan == null)
                     return NotFound();
 
-                // Update basic details
-                existingCalisan.Adi = calisan.Adi;
-                existingCalisan.Soyadi = calisan.Soyadi;
+                existingCalisan.FullName = calisan.FullName;
+                existingCalisan.BaslangicSaati = calisan.BaslangicSaati;
+                existingCalisan.BitisSaati = calisan.BitisSaati;
 
-                // Update CalisanIslem entries
                 existingCalisan.CalisanIslemler.Clear();
                 foreach (var islemId in SelectedIslemIds)
                 {
                     existingCalisan.CalisanIslemler.Add(new CalisanIslem
                     {
-                        CalisanId = calisan.CalisanID,
+                        CalisanID = calisan.CalisanID,
                         IslemID = islemId
                     });
                 }
 
                 _context.SaveChanges();
-                TempData["msj"] = $"{existingCalisan.Adi} {existingCalisan.Soyadi} başarıyla güncellendi.";
+                TempData["msj"] = $"{existingCalisan.FullName} başarıyla güncellendi.";
                 return RedirectToAction("CalisanListesi");
             }
 
             ViewBag.Islemler = _context.Islemler.ToList();
             return View(calisan);
         }
-
-        // --- CALISAN SIL ---
         public IActionResult CalisanSil(int id)
         {
             var calisan = _context.Calisanlar
@@ -133,7 +129,7 @@ namespace BarberShop.Controllers
             return View(calisan);
         }
 
-        [HttpPost, ActionName("CalisanSil")]
+        [HttpPost]
         public IActionResult CalisanSilConfirmed(int id)
         {
             var calisan = _context.Calisanlar
@@ -144,20 +140,16 @@ namespace BarberShop.Controllers
             {
                 _context.Calisanlar.Remove(calisan);
                 _context.SaveChanges();
-                TempData["msj"] = $"{calisan.Adi} {calisan.Soyadi} başarıyla silindi.";
+                TempData["msj"] = $"{calisan.FullName} başarıyla silindi.";
             }
 
             return RedirectToAction("CalisanListesi");
         }
-
-        // --- ISLEM LISTESI ---
         public IActionResult IslemListesi()
         {
             var islemler = _context.Islemler.ToList();
             return View(islemler);
         }
-
-        // --- ISLEM EKLE ---
         public IActionResult IslemEkle()
         {
             return View();
@@ -171,12 +163,11 @@ namespace BarberShop.Controllers
                 _context.Islemler.Add(islem);
                 _context.SaveChanges();
                 TempData["msj"] = $"{islem.Adi} işlemi başarıyla eklendi.";
-                return RedirectToAction("Index");
+                return RedirectToAction("IslemListesi");
             }
             return View(islem);
         }
 
-        // --- ISLEM DUZENLE ---
         public IActionResult IslemDuzenle(int id)
         {
             var islem = _context.Islemler.Find(id);
@@ -195,12 +186,11 @@ namespace BarberShop.Controllers
                 _context.Islemler.Update(islem);
                 _context.SaveChanges();
                 TempData["msj"] = $"{islem.Adi} işlemi başarıyla güncellendi.";
-                return RedirectToAction("Index");
+                return RedirectToAction("IslemListesi");
             }
             return View(islem);
         }
 
-        // --- ISLEM SIL ---
         public IActionResult IslemSil(int id)
         {
             var islem = _context.Islemler.Find(id);
@@ -211,7 +201,7 @@ namespace BarberShop.Controllers
             return View(islem);
         }
 
-        [HttpPost, ActionName("IslemSil")]
+        [HttpPost]
         public IActionResult IslemSilConfirmed(int id)
         {
             var islem = _context.Islemler.Find(id);
@@ -221,7 +211,100 @@ namespace BarberShop.Controllers
                 _context.SaveChanges();
                 TempData["msj"] = $"{islem.Adi} işlemi başarıyla silindi.";
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("IslemListesi");
+        }
+
+        public async Task<IActionResult> ManageUsers()
+        {
+            var users = _userManager.Users.ToList();
+            var model = new List<RolSecici>();
+
+            foreach (var user in users)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+                model.Add(new RolSecici
+                {
+                    UserId = user.Id,
+                    UserName = user.UserName,
+                    Email = user.Email,
+                    Roles = roles.ToList()
+                });
+            }
+
+            return View(model);
+        }
+
+        // Display the role editing form
+        public async Task<IActionResult> EditUserRole(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null) return NotFound();
+
+            var roles = _roleManager.Roles.ToList();
+            var userRoles = await _userManager.GetRolesAsync(user);
+
+            ViewBag.User = user;
+            ViewBag.Roles = roles;
+            ViewBag.UserRoles = userRoles;
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditUserRole(string userId, string selectedRole)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null) return NotFound();
+
+            if (string.IsNullOrEmpty(selectedRole))
+            {
+                TempData["msj"] = "Lütfen bir rol seçin.";
+                return RedirectToAction("EditUserRole", new { id = userId });
+            }
+
+            var currentRoles = await _userManager.GetRolesAsync(user);
+            await _userManager.RemoveFromRolesAsync(user, currentRoles);
+
+            // Assign the new role
+            await _userManager.AddToRoleAsync(user, selectedRole);
+
+            TempData["msj"] = "Kullanıcının rolü başarıyla güncellendi.";
+            return RedirectToAction("ManageUsers");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteUser(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                TempData["Error"] = "Kullanıcı bulunamadı.";
+                return RedirectToAction("ManageUsers");
+            }
+
+            var result = await _userManager.DeleteAsync(user);
+
+            if (result.Succeeded)
+            {
+                TempData["Success"] = "Kullanıcı başarıyla silindi.";
+            }
+            else
+            {
+                TempData["Error"] = "Kullanıcı silinirken bir hata oluştu.";
+            }
+
+            return RedirectToAction("ManageUsers");
+        }
+        public async Task<IActionResult> DeleteUserConfirm(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                TempData["Error"] = "Kullanıcı bulunamadı.";
+                return RedirectToAction("ManageUsers");
+            }
+
+            return View(user);
         }
     }
 }

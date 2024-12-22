@@ -2,11 +2,11 @@
 
 namespace BarberShop.Controllers
 {
-    public class HomeController : Controller
+    public class KullaniciController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Index ()
         {
             return View();
-        }
+        } 
     }
 }

@@ -1,0 +1,33 @@
+﻿@model Islem
+
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "İşlem Düzenle";
+}
+
+<h2>İşlem Düzenle</h2>
+
+<form asp-action="IslemDuzenle" method="post">
+    <input asp-for="IslemID" type="hidden" />
+
+    <div class="form-group">
+        <label asp-for="Adi">İşlem Adı</label>
+        <input asp-for="Adi" class="form-control" placeholder="İşlem adını düzenleyiniz" />
+        <span asp-validation-for="Adi" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Sure">Süre (dakika)</label>
+        <input asp-for="Sure" class="form-control" placeholder="Süreyi dakika cinsinden düzenleyiniz" />
+        <span asp-validation-for="Sure" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Ucret">Ücret</label>
+        <input asp-for="Ucret" class="form-control" placeholder="Ücreti düzenleyiniz" />
+        <span asp-validation-for="Ucret" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-warning mt-3">Güncelle</button>
+    <a asp-action="IslemListesi" class="btn btn-secondary mt-3">Geri Dön</a>
+</form>

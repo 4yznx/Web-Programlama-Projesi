@@ -1,19 +1,25 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BarberShop.Models
 {
     public class Calisan
     {
-        public int CalisanId { get; set; }
+        public int CalisanID { get; set; }
 
         [Required(ErrorMessage = "Adı alanı zorunludur.")]
         [StringLength(50, ErrorMessage = "Adı 50 karakterden fazla olamaz.")]
-        public string Adi { get; set; }
+        public string FullName { get; set; }
 
-        [Required(ErrorMessage = "Soyadı alanı zorunludur.")]
-        [StringLength(50, ErrorMessage = "Soyadı 50 karakterden fazla olamaz.")]
-        public string Soyadi { get; set; }
-        public ICollection<Islem> Islemler { get; set; } = new List<Islem>();
-    }
+        [Required(ErrorMessage = "Başlangıç saati zorunludur.")]
+        [DataType(DataType.Time)]
+        public TimeSpan BaslangicSaati { get; set; }
+
+        [Required(ErrorMessage = "Bitiş saati zorunludur.")]
+        [DataType(DataType.Time)]
+        public TimeSpan BitisSaati { get; set; }
+        public ICollection<CalisanIslem> CalisanIslemler { get; set; } = new List<CalisanIslem>();
+
+		//public ICollection<Randevu> Randevular { get; set; } = new List<Randevu>();
+
+	}
 }

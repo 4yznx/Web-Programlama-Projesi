@@ -1,0 +1,14 @@
+﻿@model Kullanici
+
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Kullanıcı Sil";
+}
+
+<p>@Model.UserName adlı kullanıcıyı silmek ister misiniz?</p>
+
+<form asp-action="DeleteUser" method="post">
+    <input type="hidden" name="id" value="@Model.Id" />
+    <button type="submit" class="btn btn-danger">Sil</button>
+    <a asp-action="ManageUsers" class="btn btn-secondary">Vazgeç</a>
+</form>

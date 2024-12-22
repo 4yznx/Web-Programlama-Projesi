@@ -1,30 +1,31 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace BarberShop.Models
 {
-    public class Randevu
-    {
-        public int RandevuID { get; set; }
+	public enum RandevuDurumu
+	{
+		Beklemede,
+		Onaylandi,
+		Reddedildi
+	}
+	public class Randevu
+	{
+		public int RandevuID { get; set; }
 
-        public int IslemId { get; set; }
-        public int CalisanId { get; set; }
+		[Required(ErrorMessage = "Randevu tarihi zorunludur.")]
+		public DateTime AppointmentDate { get; set; }
+		public RandevuDurumu Durum { get; set; } = RandevuDurumu.Beklemede;
 
-        [Required(ErrorMessage = "Kullanıcı emaili zorunludur.")]
-        public string KullaniciEmail { get; set; }
+		[Required]
+		public int CalisanID { get; set; }
+		public Calisan Calisan { get; set; }
 
-        [Required(ErrorMessage = "Randevu saati zorunludur.")]
-        public DateTime RandevuSaati { get; set; }
+		[Required]
+		public int IslemID { get; set; }
+		public Islem Islem { get; set; }
 
-        public bool IsApproved { get; set; } = false; // Default is false (pending approval)
-
-        [ForeignKey("CalisanId")]
-        public Calisan Calisan { get; set; }
-
-        [ForeignKey("IslemId")]
-        public Islem Islem { get; set; }
-
-        public string Status { get; set; }
-    }
+		[Required]
+		public string KullaniciID { get; set; }
+		public Kullanici Kullanici { get; set; }
+	}
 }
