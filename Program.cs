@@ -67,6 +67,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseStaticFiles();
 
 app.UseSession();
 app.UseAuthentication();
@@ -75,7 +76,7 @@ app.UseAuthorization();
 // Map controller routes
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Admin}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 // Run the application
 app.Run();  
