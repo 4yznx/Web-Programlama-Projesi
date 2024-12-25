@@ -1,0 +1,104 @@
+﻿@model BarberShop.Models.Randevu
+
+@{
+    ViewData["Title"] = "Randevu Al";
+}
+
+<h1 class="mb-4">Randevu Al</h1>
+<form asp-action="RandevuAl" method="post">
+    <!-- Çalışan Selection -->
+    <div class="mb-4">
+        <label asp-for="CalisanID" class="form-label fw-bold">Çalışan Seçin</label>
+        <select id="calisanSelect" asp-for="CalisanID" class="form-select" asp-items="ViewBag.CalisanID" required>
+            <option value="">-- Çalışan Seçin --</option>
+        </select>
+        <span asp-validation-for="CalisanID" class="text-danger"></span>
+    </div>
+
+    <!-- Hizmet Selection -->
+    <div class="mb-4">
+        <label asp-for="IslemID" class="form-label fw-bold">Hizmet Seçin</label>
+        <select id="islemSelect" asp-for="IslemID" class="form-select" asp-items="ViewBag.IslemID" required>
+            <option value="">-- Hizmet Seçin --</option>
+        </select>
+        <span asp-validation-for="IslemID" class="text-danger"></span>
+    </div>
+
+    <!-- Date Selection -->
+    <div class="mb-4">
+        <label for="dateSelect" class="form-label fw-bold">Randevu Günü Seçin</label>
+        <input id="dateSelect" type="date" class="form-control" required />
+    </div>
+
+    <!-- Available Time Slots -->
+    <div class="mb-4">
+        <label for="availableSlots" class="form-label fw-bold">Available Time Slots</label>
+        <select id="availableSlots" name="RandevuSaati" class="form-select" required>
+            <option value="">-- Select a Time Slot --</option>
+            <!-- Time slots will be dynamically loaded here -->
+        </select>
+        <span asp-validation-for="RandevuSaati" class="text-danger"></span>
+    </div>
+
+    <!-- Email -->
+    <div class="mb-4">
+        <label asp-for="Email" class="form-label fw-bold">Email</label>
+        <input asp-for="Email" class="form-control" type="email" required />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" class="btn btn-primary">Randevu Al</button>
+</form>
+@section Scripts {
+    <!-- Enable Client-Side Validation -->
+    <partial name="_ValidationScriptsPartial" />
+
+    <!-- JavaScript for Dynamically Loading Time Slots -->
+    <script>
+        // Event listeners for date and islem changes
+        document.getElementById("islemSelect").addEventListener("change", fetchAvailableSlots);
+        document.getElementById("dateSelect").addEventListener("change", fetchAvailableSlots);
+
+        function fetchAvailableSlots() {
+            const calisanId = document.getElementById("calisanSelect").value;
+            const islemId = document.getElementById("islemSelect").value;
+            const selectedDate = document.getElementById("dateSelect").value;
+
+            // Ensure that a Calisan, an Islem, and a date are selected
+            if (calisanId && islemId && selectedDate) {
+                fetch(`/Kullanici/GetAvailableSlots?calisanId=${calisanId}&islemId=${islemId}&date=${selectedDate}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then(slots => {
+                        const slotSelect = document.getElementById("availableSlots");
+                        slotSelect.innerHTML = '<option value="">-- Select a Time Slot --</option>'; // Clear existing options
+
+                        if (slots.length === 0) {
+                            // No available slots
+                            const noSlotsOption = document.createElement("option");
+                            noSlotsOption.textContent = "No available slots for this day.";
+                            noSlotsOption.disabled = true;
+                            slotSelect.appendChild(noSlotsOption);
+                        } else {
+                            // Populate available slots
+                            slots.forEach(slot => {
+                                const option = document.createElement("option");
+                                option.value = slot;
+                                option.textContent = new Date(slot).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                                slotSelect.appendChild(option);
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error fetching available slots:", error);
+                        alert("An error occurred while fetching available slots. Please try again.");
+                    });
+            }
+        }
+    </script>
+}

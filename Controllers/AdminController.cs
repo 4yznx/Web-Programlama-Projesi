@@ -95,8 +95,6 @@ namespace BarberShop.Controllers
                     return NotFound();
 
                 existingCalisan.FullName = calisan.FullName;
-                existingCalisan.BaslangicSaati = calisan.BaslangicSaati;
-                existingCalisan.BitisSaati = calisan.BitisSaati;
 
                 existingCalisan.CalisanIslemler.Clear();
                 foreach (var islemId in SelectedIslemIds)

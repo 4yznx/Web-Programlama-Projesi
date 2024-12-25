@@ -1,1 +1,47 @@
-﻿<p>Welcome</p>
+﻿@model List<Calisan>
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Index";
+}
+
+<h1> Welcome </h1>
+
+<h2 class="text-center">Calışanlarımız</h2>
+
+<div class="container">
+    <div class="row text-center">
+        @foreach (var calisan in Model)
+        {
+            <div class="col-md-3 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">@calisan.FullName</h5>
+                        <ul class="list-group list-group-flush">
+                            @foreach (var islem in calisan.CalisanIslemler.Select(ci => ci.Islem))
+                            {
+                                <li class="list-group-item">@islem.Adi</li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .card {
+        border: none;
+        transition: transform 0.3s ease;
+    }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+    .card-title {
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+</style>

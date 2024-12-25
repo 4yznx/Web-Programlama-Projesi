@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BarberShop.Migrations
 {
     [DbContext(typeof(BarberDbContext))]
-    partial class BarberDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241224221229_new")]
+    partial class @new
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,19 +32,10 @@ namespace BarberShop.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CalisanID"));
 
-                    b.Property<TimeSpan>("CalismaBaslangici")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("time")
-                        .HasDefaultValue(new TimeSpan(0, 9, 0, 0, 0));
-
-                    b.Property<TimeSpan>("CalismaBitisi")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("time")
-                        .HasDefaultValue(new TimeSpan(0, 17, 0, 0, 0));
-
                     b.Property<string>("FullName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("CalisanID");
 
@@ -351,7 +345,7 @@ namespace BarberShop.Migrations
             modelBuilder.Entity("BarberShop.Models.Randevu", b =>
                 {
                     b.HasOne("BarberShop.Models.Calisan", "Calisan")
-                        .WithMany("Randevular")
+                        .WithMany()
                         .HasForeignKey("CalisanID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -429,8 +423,6 @@ namespace BarberShop.Migrations
             modelBuilder.Entity("BarberShop.Models.Calisan", b =>
                 {
                     b.Navigation("CalisanIslemler");
-
-                    b.Navigation("Randevular");
                 });
 
             modelBuilder.Entity("BarberShop.Models.Islem", b =>

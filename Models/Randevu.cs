@@ -1,31 +1,32 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BarberShop.Models
 {
-	public enum RandevuDurumu
-	{
-		Beklemede,
-		Onaylandi,
-		Reddedildi
-	}
-	public class Randevu
-	{
-		public int RandevuID { get; set; }
+    public class Randevu
+    {
+        public int RandevuID { get; set; }
 
-		[Required(ErrorMessage = "Randevu tarihi zorunludur.")]
-		public DateTime AppointmentDate { get; set; }
-		public RandevuDurumu Durum { get; set; } = RandevuDurumu.Beklemede;
+        [Required(ErrorMessage = "Randevu tarihi zorunludur.")]
+        public DateTime RandevuSaati { get; set; }
+        public string Durum { get; set; } = "Beklemede";
 
-		[Required]
-		public int CalisanID { get; set; }
-		public Calisan Calisan { get; set; }
+        // Foreign Key for Calisan
+        public int CalisanID { get; set; }
+        public Calisan Calisan { get; set; }
 
-		[Required]
-		public int IslemID { get; set; }
-		public Islem Islem { get; set; }
+        // Foreign Key for Islem
+        public int IslemID { get; set; }
+        public Islem Islem { get; set; }
 
-		[Required]
-		public string KullaniciID { get; set; }
-		public Kullanici Kullanici { get; set; }
-	}
+        // Foreign Key for User
+        public string UserID { get; set; }
+        public Kullanici kullanici { get; set; }
+
+        [Required(ErrorMessage = "Email zorunludur.")]
+        public string Email { get; set; }
+    }
+
 }

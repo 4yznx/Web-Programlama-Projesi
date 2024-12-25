@@ -1,0 +1,57 @@
+﻿@model IEnumerable<BarberShop.Models.Randevu>
+
+@{
+    ViewData["Title"] = "Randevularim";
+}
+
+<h1>Randevularim</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.RandevuSaati)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Durum)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Calisan)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Islem)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RandevuSaati)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Durum)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Calisan.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Islem.Adi)
+            </td>      
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                <a asp-action="Delete" asp-route-id="@item.RandevuID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
