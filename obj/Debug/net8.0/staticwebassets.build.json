@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "XpAuHyf26Zc7Gwl+Nk+SwGCtjs2kZB3K4ZgCSue2Iec=",
+  "Hash": "6uuEUXfvl2G8IZk0ye8mkrEBGvoXfqU9M4ZSjiB0O90=",
   "Source": "BarberShop",
   "BasePath": "_content/BarberShop",
   "Mode": "Default",
@@ -1212,6 +1212,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
+    },
+    {
+      "Identity": "C:\\Users\\yazan\\OneDrive\\Desktop\\ملفاتي\\Visual Studio\\BarberShop\\BarberShop\\wwwroot\\UploadedImages\\testjpg.jpg",
+      "SourceId": "BarberShop",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\yazan\\OneDrive\\Desktop\\ملفاتي\\Visual Studio\\BarberShop\\BarberShop\\wwwroot\\",
+      "BasePath": "_content/BarberShop",
+      "RelativePath": "UploadedImages/testjpg.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\UploadedImages\\testjpg.jpg"
     }
   ]
 }

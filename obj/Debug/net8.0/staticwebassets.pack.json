@@ -5,6 +5,10 @@
       "PackagePath": "staticwebassets\\BarberShop.bundle.scp.css"
     },
     {
+      "Id": "C:\\Users\\yazan\\OneDrive\\Desktop\\ملفاتي\\Visual Studio\\BarberShop\\BarberShop\\wwwroot\\UploadedImages\\testjpg.jpg",
+      "PackagePath": "staticwebassets\\UploadedImages\\testjpg.jpg"
+    },
+    {
       "Id": "C:\\Users\\yazan\\OneDrive\\Desktop\\ملفاتي\\Visual Studio\\BarberShop\\BarberShop\\wwwroot\\css\\account.css",
       "PackagePath": "staticwebassets\\css\\account.css"
     },

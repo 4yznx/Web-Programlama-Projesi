@@ -26,6 +26,10 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Users\yazan\OneDrive\Desktop\ملفاتي\Visual Studio\BarberShop\BarberShop
 build_property._RazorSourceGeneratorDebug = 
 
+[C:/Users/yazan/OneDrive/Desktop/ملفاتي/Visual Studio/BarberShop/BarberShop/Views/Account/AccessDenied.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxBY2Nlc3NEZW5pZWQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/yazan/OneDrive/Desktop/ملفاتي/Visual Studio/BarberShop/BarberShop/Views/Account/ChangePassword.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxDaGFuZ2VQYXNzd29yZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -42,40 +46,104 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxWZXJpZnlFbWFpbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/yazan/OneDrive/Desktop/ملفاتي/Visual Studio/BarberShop/BarberShop/Views/Calisan/CalisanDuzenle.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FsaXNhblxDYWxpc2FuRHV6ZW5sZS5jc2h0bWw=
+[C:/Users/yazan/OneDrive/Desktop/ملفاتي/Visual Studio/BarberShop/BarberShop/Views/Admin/CalisanDuzenle.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ2FsaXNhbkR1emVubGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/yazan/OneDrive/Desktop/ملفاتي/Visual Studio/BarberShop/BarberShop/Views/Calisan/CalisanEkle.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FsaXNhblxDYWxpc2FuRWtsZS5jc2h0bWw=
+[C:/Users/yazan/OneDrive/Desktop/ملفاتي/Visual Studio/BarberShop/BarberShop/Views/Admin/CalisanEkle.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ2FsaXNhbkVrbGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/yazan/OneDrive/Desktop/ملفاتي/Visual Studio/BarberShop/BarberShop/Views/Calisan/CalisanSil.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FsaXNhblxDYWxpc2FuU2lsLmNzaHRtbA==
+[C:/Users/yazan/OneDrive/Desktop/ملفاتي/Visual Studio/BarberShop/BarberShop/Views/Admin/CalisanKazanclari.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ2FsaXNhbkthemFuY2xhcmkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/yazan/OneDrive/Desktop/ملفاتي/Visual Studio/BarberShop/BarberShop/Views/Admin/CalisanListesi.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ2FsaXNhbkxpc3Rlc2kuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/yazan/OneDrive/Desktop/ملفاتي/Visual Studio/BarberShop/BarberShop/Views/Admin/CalisanSil.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ2FsaXNhblNpbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/yazan/OneDrive/Desktop/ملفاتي/Visual Studio/BarberShop/BarberShop/Views/Admin/DeleteUserConfirm.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRGVsZXRlVXNlckNvbmZpcm0uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/yazan/OneDrive/Desktop/ملفاتي/Visual Studio/BarberShop/BarberShop/Views/Admin/EditUserRole.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRWRpdFVzZXJSb2xlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/yazan/OneDrive/Desktop/ملفاتي/Visual Studio/BarberShop/BarberShop/Views/Admin/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/yazan/OneDrive/Desktop/ملفاتي/Visual Studio/BarberShop/BarberShop/Views/Admin/IslemDuzenle.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cSXNsZW1EdXplbmxlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/yazan/OneDrive/Desktop/ملفاتي/Visual Studio/BarberShop/BarberShop/Views/Admin/IslemEkle.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cSXNsZW1Fa2xlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/yazan/OneDrive/Desktop/ملفاتي/Visual Studio/BarberShop/BarberShop/Views/Admin/IslemListesi.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cSXNsZW1MaXN0ZXNpLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/yazan/OneDrive/Desktop/ملفاتي/Visual Studio/BarberShop/BarberShop/Views/Admin/IslemSil.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cSXNsZW1TaWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/yazan/OneDrive/Desktop/ملفاتي/Visual Studio/BarberShop/BarberShop/Views/Admin/ManageUsers.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTWFuYWdlVXNlcnMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/yazan/OneDrive/Desktop/ملفاتي/Visual Studio/BarberShop/BarberShop/Views/Admin/_LayoutAdmin.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cX0xheW91dEFkbWluLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/yazan/OneDrive/Desktop/ملفاتي/Visual Studio/BarberShop/BarberShop/Views/ApiConsumer/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXBpQ29uc3VtZXJcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/yazan/OneDrive/Desktop/ملفاتي/Visual Studio/BarberShop/BarberShop/Views/ApiConsumer/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXBpQ29uc3VtZXJcRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/yazan/OneDrive/Desktop/ملفاتي/Visual Studio/BarberShop/BarberShop/Views/ApiConsumer/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXBpQ29uc3VtZXJcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/yazan/OneDrive/Desktop/ملفاتي/Visual Studio/BarberShop/BarberShop/Views/ApiConsumer/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXBpQ29uc3VtZXJcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/yazan/OneDrive/Desktop/ملفاتي/Visual Studio/BarberShop/BarberShop/Views/Calisan/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FsaXNhblxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/yazan/OneDrive/Desktop/ملفاتي/Visual Studio/BarberShop/BarberShop/Views/Calisan/Randevular.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FsaXNhblxSYW5kZXZ1bGFyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/yazan/OneDrive/Desktop/ملفاتي/Visual Studio/BarberShop/BarberShop/Views/Calisan/_LayoutCalisan.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FsaXNhblxfTGF5b3V0Q2FsaXNhbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/yazan/OneDrive/Desktop/ملفاتي/Visual Studio/BarberShop/BarberShop/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/yazan/OneDrive/Desktop/ملفاتي/Visual Studio/BarberShop/BarberShop/Views/Islem/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSXNsZW1cSW5kZXguY3NodG1s
+[C:/Users/yazan/OneDrive/Desktop/ملفاتي/Visual Studio/BarberShop/BarberShop/Views/Kullanici/RandevuAl.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS3VsbGFuaWNpXFJhbmRldnVBbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/yazan/OneDrive/Desktop/ملفاتي/Visual Studio/BarberShop/BarberShop/Views/Islem/IslemDuzenle.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSXNsZW1cSXNsZW1EdXplbmxlLmNzaHRtbA==
+[C:/Users/yazan/OneDrive/Desktop/ملفاتي/Visual Studio/BarberShop/BarberShop/Views/Kullanici/Randevularim.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS3VsbGFuaWNpXFJhbmRldnVsYXJpbS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/yazan/OneDrive/Desktop/ملفاتي/Visual Studio/BarberShop/BarberShop/Views/Islem/IslemEkle.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSXNsZW1cSXNsZW1Fa2xlLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/yazan/OneDrive/Desktop/ملفاتي/Visual Studio/BarberShop/BarberShop/Views/Islem/IslemSil.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSXNsZW1cSXNsZW1TaWwuY3NodG1s
+[C:/Users/yazan/OneDrive/Desktop/ملفاتي/Visual Studio/BarberShop/BarberShop/Views/Kullanici/RandevuSil.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS3VsbGFuaWNpXFJhbmRldnVTaWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/yazan/OneDrive/Desktop/ملفاتي/Visual Studio/BarberShop/BarberShop/Views/Shared/Error.cshtml]

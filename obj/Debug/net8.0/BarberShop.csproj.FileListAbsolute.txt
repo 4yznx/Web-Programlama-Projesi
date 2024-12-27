@@ -283,3 +283,5 @@ C:\Users\yazan\OneDrive\Desktop\ملفاتي\Visual Studio\BarberShop\BarberShop
 C:\Users\yazan\OneDrive\Desktop\ملفاتي\Visual Studio\BarberShop\BarberShop\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\yazan\OneDrive\Desktop\ملفاتي\Visual Studio\BarberShop\BarberShop\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Windows.Extensions.dll
 C:\Users\yazan\OneDrive\Desktop\ملفاتي\Visual Studio\BarberShop\BarberShop\bin\Debug\net8.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\yazan\OneDrive\Desktop\ملفاتي\Visual Studio\BarberShop\BarberShop\bin\Debug\net8.0\System.Net.Http.Formatting.dll
+C:\Users\yazan\OneDrive\Desktop\ملفاتي\Visual Studio\BarberShop\BarberShop\bin\Debug\net8.0\Newtonsoft.Json.Bson.dll
