@@ -41,14 +41,7 @@ namespace BarberShop.Controllers
 
                 if (result.Succeeded)
                 {
-                    if (user.Email.EndsWith("@barbershop.com", StringComparison.OrdinalIgnoreCase))
-                    {
-                        await userManager.AddToRoleAsync(user, "Calisan");
-                    }
-                    else
-                    {
-                        await userManager.AddToRoleAsync(user, "Kullanici");
-                    }
+                    await userManager.AddToRoleAsync(user, "Kullanici");
 
                     return RedirectToAction("Login", "Account");
                 }
@@ -62,13 +55,16 @@ namespace BarberShop.Controllers
             }
             return View(model);
         }
-        public IActionResult Login()
+
+        public IActionResult Login(string returnUrl = null)
         {
+            ViewData["ReturnUrl"] = returnUrl; // Pass the return URL to the view
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(Login model)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(Login model, string returnUrl = null)
         {
             if (ModelState.IsValid)
             {
@@ -77,24 +73,22 @@ namespace BarberShop.Controllers
                 if (result.Succeeded)
                 {
                     var user = await userManager.FindByEmailAsync(model.Email);
-
                     if (user != null)
                     {
-                        // Create session
-                        HttpContext.Session.SetString("UserEmail", user.Email);
+                        var role = (await userManager.GetRolesAsync(user)).FirstOrDefault();
+
                         HttpContext.Session.SetString("UserName", user.FullName);
+                        HttpContext.Session.SetString("UserEmail", user.Email);
+                        HttpContext.Session.SetString("UserRole", role);
 
-                        if (await userManager.IsInRoleAsync(user, "Admin"))
-                        {
+                        if (role == "Admin")
                             return RedirectToAction("Index", "Admin");
-                        }
-
-                        if (await userManager.IsInRoleAsync(user, "Calisan"))
-                        {
+                        if (role == "Calisan")
                             return RedirectToAction("Index", "Calisan");
-                        }
+                        if (role == "Kullanici")
+                            return Redirect(returnUrl ?? Url.Action("Index", "Home"));
 
-                        return RedirectToAction("Index", "Home");
+                        ModelState.AddModelError("", "Geçersiz rol.");
                     }
                 }
                 else
@@ -102,8 +96,11 @@ namespace BarberShop.Controllers
                     ModelState.AddModelError("", "Email veya şifre yanlış!");
                 }
             }
+
+            ViewData["ReturnUrl"] = returnUrl;
             return View(model);
         }
+
 
         public IActionResult VerifyEmail()
         {
@@ -181,6 +178,7 @@ namespace BarberShop.Controllers
         public async Task<IActionResult> Logout()
         {
             await signInManager.SignOutAsync();
+            HttpContext.Session.Clear();
             return RedirectToAction("Index", "Home");
         }
     }

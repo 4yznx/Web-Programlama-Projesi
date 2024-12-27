@@ -11,7 +11,7 @@
     <thead>
         <tr>
             <th>İşlem Adı</th>
-            <th>Süre</th>
+            <th>Süre (dk)</th>
             <th>Ücret</th>
             <th>İşlem Yap</th>
         </tr>
@@ -21,7 +21,7 @@
         {
             <tr>
                 <td>@islem.Adi</td>
-                <td>@islem.Sure dakika</td>
+                <td>@islem.Sure</td>
                 <td>@islem.Ucret ₺</td>
                 <td>
                     <a asp-action="IslemDuzenle" asp-route-id="@islem.IslemID" class="btn btn-warning btn-sm">Düzenle</a>

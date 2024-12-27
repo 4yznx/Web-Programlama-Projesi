@@ -5,24 +5,64 @@
     ViewData["Title"] = "Çalışan Ekle";
 }
 
-<h2>Yeni Çalışan Ekle</h2>
+<div class="d-flex justify-content-center mt-5">
+    <div class="border p-4 shadow-sm bg-light rounded" style="width: 40%;">
+        <h2 class="mb-4 text-center">Yeni Çalışan Ekle</h2>
 
-<form asp-action="CalisanEkle" method="post">
-    <div class="form-group">
-        <label>Adı</label>
-        <input asp-for="FullName" class="form-control" />
+        <form asp-action="CalisanEkle" method="post">
+            <div class="mb-3">
+                <label asp-for="FullName" class="form-label fw-bold">Adı</label>
+                <input asp-for="FullName" class="form-control"/>
+                <span asp-validation-for="FullName" class="text-danger"></span>
+			</div><a href="c:\users\yazan\onedrive\desktop\ملفاتي\visual studio\barbershop\barbershop\views\admin\calisanekle.cshtml">c:\users\yazan\onedrive\desktop\ملفاتي\visual studio\barbershop\barbershop\views\admin\calisanekle.cshtml</a>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Email</label>
+                <div class="input-group">
+                    <input name="EmailPrefix" class="form-control"/>
+                    <span class="input-group-text">@@barbershop.com</span>
+                </div>
+                <small class="form-text text-muted"></small>
+            </div>
+
+            <h4 class="mt-4 mb-3">Çalışma Saatleri</h4>
+            <div class="mb-3">
+                <label asp-for="CalismaBaslangici" class="form-label fw-bold">Başlangıç Saati</label>
+                <input asp-for="CalismaBaslangici" type="time" class="form-control" required />
+                <span asp-validation-for="CalismaBaslangici" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="CalismaBitisi" class="form-label fw-bold">Bitiş Saati</label>
+                <input asp-for="CalismaBitisi" type="time" class="form-control" required />
+                <span asp-validation-for="CalismaBitisi" class="text-danger"></span>
+            </div>
+
+            <h4 class="mt-4 mb-3">Uzmanlıklar</h4>
+            <div class="mb-3">
+                @if (ViewBag.Islemler != null)
+                {
+                    @foreach (var islem in ViewBag.Islemler)
+                    {
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" name="SecilenIslemIds" value="@islem.IslemID" id="islem-@islem.IslemID" />
+                            <label class="form-check-label" for="islem-@islem.IslemID">@islem.Adi</label>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p class="text-muted">Eklenmiş bir işlem bulunamadı.</p>
+                }
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <a asp-action="CalisanListesi" class="btn btn-secondary">Geri Dön</a>
+                <button type="submit" class="btn btn-success">Kaydet</button>
+            </div>
+        </form>
     </div>
-    <br />
-    <h4>Uzmanlıklar</h4>
-    @foreach (var islem in ViewBag.Islemler)
-    {
-        <div>
-            <input type="checkbox" name="SecilenIslemIds" value="@islem.IslemID" />
-            <label>@islem.Adi</label>
-        </div>
-    }
+</div>
 
-    <button type="submit" class="btn btn-success mt-3">Kaydet</button>
-    <a asp-action="CalisanListesi" class="btn btn-secondary mt-3">Geri Dön</a>
-
-</form>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,22 @@
+﻿@model Islem
+
+@{
+    Layout = "~/Views/Admin/_LayoutAdmin.cshtml";
+    ViewData["Title"] = "İşlem Sil";
+}
+
+<h2 class="text-center">İşlem Sil</h2>
+
+<p>Bu işlemi silmek istediğinizden emin misiniz?</p>
+
+<div>
+    <h4>@Model.Adi</h4>
+    <p>Süre: @Model.Sure dk</p>
+    <p>Ücret: @Model.Ucret ₺</p>
+</div>
+
+<form asp-action="DeleteConfirmed" method="post">
+    <input type="hidden" asp-for="IslemID" />
+    <button type="submit" class="btn btn-danger">Evet, Sil</button>
+    <a asp-action="Index" class="btn btn-secondary">İptal</a>
+</form>

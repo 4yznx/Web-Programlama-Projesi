@@ -1,13 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using BarberShop.Models;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using BarberShop.Models;
 
 namespace BarberShop.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Kullanici")]
     public class KullaniciController : Controller
     {
         private readonly BarberDbContext _context;
@@ -16,8 +16,6 @@ namespace BarberShop.Controllers
         {
             _context = context;
         }
-
-        // Display all appointments
         public async Task<IActionResult> Index()
         {
             var randevular = await _context.Randevular
@@ -40,13 +38,13 @@ namespace BarberShop.Controllers
             return View(appointments);
         }
 
-        // Load the appointment creation form
         public IActionResult RandevuAl()
         {
             ViewData["CalisanID"] = new SelectList(_context.Calisanlar, "CalisanID", "FullName");
             ViewData["IslemID"] = new SelectList(_context.Islemler, "IslemID", "Adi");
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RandevuAl(Randevu randevu)
@@ -58,6 +56,7 @@ namespace BarberShop.Controllers
                 return BadRequest("Invalid Çalışan or İşlem selected.");
 
             var appointments = await _context.Randevular
+                .Include(r => r.Islem)
                 .Where(r => r.CalisanID == randevu.CalisanID && r.RandevuSaati.Date == randevu.RandevuSaati.Date)
                 .ToListAsync();
 
@@ -74,11 +73,45 @@ namespace BarberShop.Controllers
             await _context.SaveChangesAsync();
 
             TempData["SuccessMessage"] = "Randevu başarıyla alındı!";
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Randevularim");
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetIslemDetails(int islemId)
+        {
+            var islem = await _context.Islemler.FindAsync(islemId);
+            if (islem == null)
+                return NotFound();
 
-        // Display confirmation page for deleting an appointment
+            return Json(new { ucret = islem.Ucret, sure = islem.Sure });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAvailableSlots(int calisanId, int islemId, DateTime date)
+        {
+            var calisan = await _context.Calisanlar.FindAsync(calisanId);
+            if (calisan == null)
+                return NotFound();
+
+            var islem = await _context.Islemler.FindAsync(islemId);
+            if (islem == null)
+                return NotFound();
+
+            var appointments = await _context.Randevular
+                .Include(r => r.Islem)
+                .Where(r => r.CalisanID == calisanId && r.RandevuSaati.Date == date.Date)
+                .ToListAsync();
+
+            var availableSlots = calisan.GetAvailableTimeSlots(calisan, date, appointments, islem.Sure);
+
+            if (date.Date == DateTime.Now.Date)
+            {
+                var currentTime = DateTime.Now;
+                availableSlots = availableSlots.Where(slot => slot > currentTime).ToList();
+            }
+
+            return Json(availableSlots);
+        }
         public async Task<IActionResult> RandevuSil(int? id)
         {
             if (id == null)
@@ -95,42 +128,40 @@ namespace BarberShop.Controllers
             return View(randevu);
         }
 
-        // Process the deletion of an appointment
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RandevuSilConfirmed(int id)
         {
-            var randevu = await _context.Randevular.FindAsync(id);
+            var randevu = await _context.Randevular
+                .Include(r => r.Calisan)
+                .Include(r => r.Islem)
+                .FirstOrDefaultAsync(r => r.RandevuID == id);
 
             if (randevu != null)
             {
+                var kazancKaydi = await _context.CalisanKazanclari
+                    .FirstOrDefaultAsync(k => k.CalisanID == randevu.CalisanID && k.Tarih == randevu.RandevuSaati.Date);
+
+                if (kazancKaydi != null)
+                {
+                    kazancKaydi.ToplamKazanc -= randevu.Islem.Ucret;
+
+                    if (kazancKaydi.ToplamKazanc <= 0)
+                    {
+                        _context.CalisanKazanclari.Remove(kazancKaydi);
+                    }
+                    else
+                    {
+                        _context.CalisanKazanclari.Update(kazancKaydi);
+                    }
+                }
+
                 _context.Randevular.Remove(randevu);
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToAction(nameof(Index));
+            TempData["SuccessMessage"] = "Randevu başarıyla iptal edildi.";
+            return RedirectToAction("Randevularim");
         }
-
-
-        [HttpGet]
-        public async Task<IActionResult> GetAvailableSlots(int calisanId, int islemId, DateTime date)
-        {
-            var calisan = await _context.Calisanlar.FindAsync(calisanId);
-            if (calisan == null)
-                return NotFound();
-
-            var islem = await _context.Islemler.FindAsync(islemId);
-            if (islem == null)
-                return NotFound();
-
-            var appointments = await _context.Randevular
-                .Where(r => r.CalisanID == calisanId && r.RandevuSaati.Date == date.Date)
-                .ToListAsync();
-
-            var availableSlots = calisan.GetAvailableTimeSlots(calisan, date, appointments, islem.Sure);
-
-            return Json(availableSlots); // Return the list of available time slots as JSON
-        }
-
     }
 }

@@ -7,12 +7,11 @@
 
 <h2>Çalışan Listesi</h2>
 
-<table class="table table-striped">
-    <thead>
+<table class="table table-striped table-hover">
+    <thead class="thead-dark">
         <tr>
             <th>Adı</th>
-            <th>Başlangıç Saati</th>
-            <th>Bitiş Saati</th>
+            <th>Çalışma Saatleri</th>
             <th>Hizmetler</th>
             <th>İşlem Yap</th>
         </tr>
@@ -23,14 +22,22 @@
             <tr>
                 <td>@calisan.FullName</td>
                 <td>
+                    @calisan.CalismaBaslangici.ToString(@"hh\:mm") -
+                    @calisan.CalismaBitisi.ToString(@"hh\:mm")
+                </td>
+                <td>
                     @foreach (var islem in calisan.CalisanIslemler.Select(ci => ci.Islem))
                     {
-                        <span class="badge bg-secondary">@islem.Adi</span>
+                        <span class="badge bg-primary">@islem.Adi</span>
                     }
                 </td>
                 <td>
-                    <a asp-action="CalisanDuzenle" asp-route-id="@calisan.CalisanID" class="btn btn-warning btn-sm">Düzenle</a>
-                    <a asp-action="CalisanSil" asp-route-id="@calisan.CalisanID" class="btn btn-danger btn-sm">Sil</a>
+                    <a asp-action="CalisanDuzenle" asp-route-id="@calisan.CalisanID" class="btn btn-warning btn-sm">
+                        <i class="bi bi-pencil"></i> Düzenle
+                    </a>
+                    <a asp-action="CalisanSil" asp-route-id="@calisan.CalisanID" class="btn btn-danger btn-sm">
+                        <i class="bi bi-trash"></i> Sil
+                    </a>
                 </td>
             </tr>
         }

@@ -1,0 +1,88 @@
+﻿@model IEnumerable<Randevu>
+
+@{
+    Layout = "_LayoutCalisan";
+    ViewData["Title"] = "Randevular";
+}
+
+<div class="container my-5">
+    <h2 class="text-center mb-4">Randevular</h2>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-warning text-center" role="alert">
+            Şu anda herhangi bir randevu talebi bulunmamaktadır.
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive shadow-sm">
+            <table class="table table-hover table-bordered text-center align-middle">
+                <thead class="table-primary">
+                    <tr>
+                        <th>Tarih ve Saat</th>
+                        <th>İşlem</th>
+                        <th>Ücret (₺)</th>
+                        <th>Müşteri</th>
+                        <th>Email</th>
+                        <th>Durum</th>
+                        <th>Onay</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var randevu in Model)
+                    {
+                        <tr>
+                            <td>@randevu.RandevuSaati.ToString("dd/MM/yyyy HH:mm")</td>
+
+                            <td>@randevu.Islem.Adi</td>
+
+                            <td>@randevu.Islem.Ucret</td>
+
+                            <td>@randevu.Kullanici.FullName</td>
+
+                            <td>@randevu.Kullanici.Email</td>
+
+                            <td>
+                                @if (randevu.Durum == "Beklemede")
+                                {
+                                    <span class="badge bg-warning text-dark">Beklemede</span>
+                                }
+                                else if (randevu.Durum == "Kabul Edildi")
+                                {
+                                    <span class="badge bg-success">Kabul Edildi</span>
+                                }
+                                else if (randevu.Durum == "Reddedildi")
+                                {
+                                    <span class="badge bg-danger">Reddedildi</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (randevu.Durum == "Beklemede")
+                                {
+                                    <div class="d-flex justify-content-center gap-2">
+                                        <form asp-action="AcceptRandevu" asp-route-id="@randevu.RandevuID" method="post" class="d-inline">
+                                            <button type="submit" class="btn btn-success btn-sm">
+                                                <i class="bi bi-check-circle"></i> Kabul Et
+                                            </button>
+                                        </form>
+                                        <form asp-action="RejectRandevu" asp-route-id="@randevu.RandevuID" method="post" class="d-inline">
+                                            <button type="submit" class="btn btn-danger btn-sm">
+                                                <i class="bi bi-x-circle"></i> Reddet
+                                            </button>
+                                        </form>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">İşlem Yapılmaz</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

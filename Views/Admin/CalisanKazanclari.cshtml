@@ -1,0 +1,42 @@
+﻿@model IEnumerable<CalisanKazanclari>
+
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Çalışan Kazançları";
+}
+
+<div class="container my-5">
+    <h2 class="text-center mb-4">Çalışanların Günlük Kazançları</h2>
+    <div class="table-responsive shadow-sm">
+        <table class="table table-striped table-hover align-middle">
+            <thead class="table-primary text-center">
+                <tr>
+                    <th>Tarih</th>
+                    <th>Çalışan Adı</th>
+                    <th>Toplam Kazanç (₺)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!Model.Any())
+                {
+                    <tr>
+                        <td colspan="3" class="text-center text-danger fw-bold">
+                            Henüz kazanç kaydı bulunmamaktadır.
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    foreach (var kazanc in Model)
+                    {
+                        <tr class="text-center">
+                            <td>@kazanc.Tarih.ToString("dd/MM/yyyy")</td>
+                            <td>@kazanc.Calisan.FullName</td>
+                            <td class="fw-bold text-success">@kazanc.ToplamKazanc.ToString("0.00")</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

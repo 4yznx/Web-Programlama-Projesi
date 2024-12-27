@@ -42,31 +42,72 @@ namespace BarberShop.Controllers
         }
 
         [HttpPost]
-        public IActionResult CalisanEkle(Calisan calisan, List<int> SecilenIslemIds)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CalisanEkle(Calisan calisan, string EmailPrefix, List<int> SecilenIslemIds)
         {
+            if (calisan.CalismaBaslangici >= calisan.CalismaBitisi)
+            {
+                ModelState.AddModelError("", "Başlangıç saati bitiş saatinden önce olmalıdır.");
+            }
+
             if (ModelState.IsValid)
             {
-                _context.Calisanlar.Add(calisan);
-                _context.SaveChanges();
+                var email = $"{EmailPrefix.Trim().ToLower()}@barbershop.com";
 
-                foreach (var islemId in SecilenIslemIds)
+                var existingUser = await _userManager.FindByEmailAsync(email);
+                if (existingUser != null)
                 {
-                    var calisanIslem = new CalisanIslem
-                    {
-                        CalisanID = calisan.CalisanID,
-                        IslemID = islemId
-                    };
-                    _context.CalisanIslemler.Add(calisanIslem);
+                    ModelState.AddModelError("Email", "Oluşturulan email adresi kullanıliyor.");
+                    ViewBag.Islemler = _context.Islemler.ToList();
+                    return View(calisan);
                 }
 
-                _context.SaveChanges();
-                TempData["msj"] = $"{calisan.FullName} başarıyla eklendi.";
-                return RedirectToAction("CalisanListesi");
+                _context.Calisanlar.Add(calisan);
+                await _context.SaveChangesAsync();
+
+                var user = new Kullanici
+                {
+                    FullName = calisan.FullName,
+                    Email = email,
+                    UserName = email
+                };
+
+                var result = await _userManager.CreateAsync(user, "cal");
+
+                if (result.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(user, "Calisan");
+
+                    calisan.UserID = user.Id;
+
+                    foreach (var islemId in SecilenIslemIds)
+                    {
+                        _context.CalisanIslemler.Add(new CalisanIslem
+                        {
+                            CalisanID = calisan.CalisanID,
+                            IslemID = islemId
+                        });
+                    }
+
+                    _context.Update(calisan);
+                    await _context.SaveChangesAsync();
+
+                    TempData["SuccessMessage"] = $"Çalışan başarıyla eklendi! Email: {email}, Şifre: cal";
+                    return RedirectToAction("CalisanListesi");
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                }
             }
 
             ViewBag.Islemler = _context.Islemler.ToList();
             return View(calisan);
         }
+
         public IActionResult CalisanDuzenle(int id)
         {
             var calisan = _context.Calisanlar
@@ -143,6 +184,25 @@ namespace BarberShop.Controllers
 
             return RedirectToAction("CalisanListesi");
         }
+
+        public async Task<IActionResult> CalisanKazanclari()
+        {
+            var calisanKazanc = await _context.Randevular
+                .Where(r => r.Durum == "Kabul Edildi")
+                .GroupBy(r => new { r.CalisanID, Tarih = r.RandevuSaati.Date })
+                .Select(g => new CalisanKazanclari
+                {
+                    Tarih = g.Key.Tarih,
+                    CalisanID = g.Key.CalisanID,
+                    ToplamKazanc = g.Sum(r => r.Islem.Ucret),
+                    Calisan = g.Select(r => r.Calisan).FirstOrDefault()
+                })
+                .ToListAsync();
+
+            return View(calisanKazanc);
+        }
+
+
         public IActionResult IslemListesi()
         {
             var islemler = _context.Islemler.ToList();
@@ -232,7 +292,6 @@ namespace BarberShop.Controllers
             return View(model);
         }
 
-        // Display the role editing form
         public async Task<IActionResult> EditUserRole(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
@@ -262,8 +321,6 @@ namespace BarberShop.Controllers
 
             var currentRoles = await _userManager.GetRolesAsync(user);
             await _userManager.RemoveFromRolesAsync(user, currentRoles);
-
-            // Assign the new role
             await _userManager.AddToRoleAsync(user, selectedRole);
 
             TempData["msj"] = "Kullanıcının rolü başarıyla güncellendi.";

@@ -3,48 +3,120 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - WebApplication1</title>
+    <title>@ViewData["Title"] - Admin Panel</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/WebApplication1.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .navbar {
+            background: linear-gradient(to right, #007bff, #6610f2);
+            color: white;
+        }
+
+        .navbar-brand, .nav-link {
+            color: white !important;
+            font-weight: 600;
+        }
+
+            .nav-link.active {
+                background-color: rgba(255, 255, 255, 0.25);
+                border-radius: 5px;
+            }
+
+        .navbar-toggler-icon {
+            background-color: white;
+        }
+
+        footer {
+            background-color: #343a40;
+            color: white;
+            padding: 1rem 0;
+            text-align: center;
+        }
+
+            footer a {
+                color: #17a2b8;
+                text-decoration: none;
+            }
+
+                footer a:hover {
+                    text-decoration: underline;
+                }
+
+        .content-container {
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-lg navbar-dark">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Admin" asp-action="Index">Admin - Panel</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                <a class="navbar-brand" asp-area="" asp-controller="Admin" asp-action="Index">
+                    <i class="fas fa-tools"></i> Admin - Panel
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                <div class="collapse navbar-collapse" id="navbarContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="CalisanEkle">Calisan Ekle</a>
+                            <a class="nav-link @(ViewData["Title"] == "Calisan Ekle" ? "active" : "")" asp-controller="Admin" asp-action="CalisanEkle">
+                                <i class="fas fa-user-plus"></i> Çalışan Ekle
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="CalisanListesi">Calisanlar</a>
+                            <a class="nav-link @(ViewData["Title"] == "Calisanlar" ? "active" : "")" asp-controller="Admin" asp-action="CalisanListesi">
+                                <i class="fas fa-users"></i> Çalışanlar
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="IslemEkle">Islem Ekle</a>
+                            <a class="nav-link @(ViewData["Title"] == "Islem Ekle" ? "active" : "")" asp-controller="Admin" asp-action="IslemEkle">
+                                <i class="fas fa-plus-circle"></i> İşlem Ekle
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="IslemListesi">Islemler</a>
+                            <a class="nav-link @(ViewData["Title"] == "Islemler" ? "active" : "")" asp-controller="Admin" asp-action="IslemListesi">
+                                <i class="fas fa-list-alt"></i> İşlemler
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="ManageUsers">Kullanıcı Yönetimi</a>
+                            <a class="nav-link @(ViewData["Title"] == "Kullanıcı Yönetimi" ? "active" : "")" asp-controller="Admin" asp-action="ManageUsers">
+                                <i class="fas fa-user-cog"></i> Kullanıcı Yönetimi
+                            </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Admin" asp-action="CalisanKazanclari">Çalışan Kazançları</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @(ViewData["Title"] == "API" ? "active" : "")" asp-controller="ApiConsumer" asp-action="Index">
+                                <i class="fas fa-user-cog"></i> API
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav ms-auto">
                         <partial name="_LoginPartial" />
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+
+    <div class="container my-4">
+        <div class="content-container">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
     </div>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

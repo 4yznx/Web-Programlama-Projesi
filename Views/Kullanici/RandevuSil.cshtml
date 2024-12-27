@@ -1,0 +1,47 @@
+﻿@model Randevu
+
+@{
+    ViewData["Title"] = "Randevu Sil";
+}
+
+<h2>Randevu Sil</h2>
+
+<div class="alert alert-warning" role="alert">
+    <h4 class="alert-heading">Randevuyu Silmek İstiyor musunuz?</h4>
+    <p>
+        Aşağıdaki randevuyu silmek üzeresiniz. Bu işlem geri alınamaz. Lütfen devam etmeden önce kontrol ediniz.
+    </p>
+</div>
+
+<table class="table table-bordered">
+    <tr>
+        <th>Tarih ve Saat</th>
+        <td>@Model.RandevuSaati.ToString("dd/MM/yyyy HH:mm")</td>
+    </tr>
+    <tr>
+        <th>İşlem</th>
+        <td>@Model.Islem.Adi</td>
+    </tr>
+    <tr>
+        <th>Çalışan</th>
+        <td>@Model.Calisan.FullName</td>
+    </tr>
+    <tr>
+        <th>Müşteri</th>
+        <td>@Model.Kullanici.FullName</td>
+    </tr>
+    <tr>
+        <th>Email</th>
+        <td>@Model.Email</td>
+    </tr>
+    <tr>
+        <th>Durum</th>
+        <td>@Model.Durum</td>
+    </tr>
+</table>
+
+<form asp-action="RandevuSilConfirmed" method="post">
+    <input type="hidden" name="id" value="@Model.RandevuID" />
+    <button type="submit" class="btn btn-danger">Evet, Sil</button>
+    <a asp-action="Randevularim" class="btn btn-secondary">Hayır, Geri Dön</a>
+</form>

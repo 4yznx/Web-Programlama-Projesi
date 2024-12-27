@@ -1,57 +1,87 @@
-﻿@model IEnumerable<BarberShop.Models.Randevu>
+﻿@model IEnumerable<Randevu>
 
 @{
-    ViewData["Title"] = "Randevularim";
+    ViewData["Title"] = "Randevularım";
 }
 
-<h1>Randevularim</h1>
+<div class="container my-5">
+    <h2 class="text-center mb-4">Randevularım</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.RandevuSaati)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Durum)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Calisan)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Islem)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.RandevuSaati)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Durum)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Calisan.FullName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Islem.Adi)
-            </td>      
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                <a asp-action="Delete" asp-route-id="@item.RandevuID">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <div class="table-responsive shadow">
+        <table class="table table-hover table-bordered align-middle">
+            <thead class="table-primary text-center">
+                <tr>
+                    <th>Tarih ve Saat</th>
+                    <th>İşlem</th>
+                    <th>Ücret (₺)</th>
+                    <th>Süre (dk)</th>
+                    <th>Çalışan</th>
+                    <th>Email</th>
+                    <th>Durum</th>
+                    <th>İşlem Yap</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!Model.Any())
+                {
+                    <tr>
+                        <td colspan="8" class="text-center text-danger fw-bold">Henüz bir randevunuz bulunmamaktadır.</td>
+                    </tr>
+                }
+                else
+                {
+                    foreach (var item in Model)
+                    {
+                        var isPast = item.RandevuSaati < DateTime.Now;
+
+                        <tr>
+                            <td class="text-center">
+                                @item.RandevuSaati.ToString("dd/MM/yyyy HH:mm")
+                            </td>
+                            <td class="text-center">
+                                @item.Islem.Adi
+                            </td>
+                            <td class="text-center">
+                                @item.Islem.Ucret.ToString("0.00")
+                            </td>
+                            <td class="text-center">
+                                @item.Islem.Sure.ToString()
+                            </td>
+                            <td class="text-center">
+                                @item.Calisan.FullName
+                            </td>
+                            <td class="text-center">
+                                @item.Email
+                            </td>
+                            <td class="text-center">
+                                @if (item.Durum == "Kabul Edildi")
+                                {
+                                    <span class="badge bg-success">Kabul Edildi</span>
+                                }
+                                else if (item.Durum == "Beklemede")
+                                {
+                                    <span class="badge bg-warning text-dark">Beklemede</span>
+                                }
+                            </td>
+                            <td class="text-center">
+                                @if (isPast)
+                                {
+                                    <span class="badge bg-secondary">Randevu Süresi Geçmiş</span>
+                                }
+                                else
+                                {
+                                    <form asp-action="RandevuSilConfirmed" method="post" class="d-inline">
+                                        <input type="hidden" name="id" value="@item.RandevuID" />
+                                        <button type="submit" class="btn btn-danger btn-sm rounded-pill">
+                                            <i class="bi bi-x-circle"></i> İptal Et
+                                        </button>
+                                    </form>
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
