@@ -97,5 +97,16 @@ namespace BarberShop.Controllers.Api
         {
             return _context.Islemler.Any(e => e.IslemID == id);
         }
+
+        [HttpGet("filter-by-price")]
+        public async Task<ActionResult<IEnumerable<Islem>>> GetIslemlerByPrice([FromQuery] decimal maxPrice)
+        {
+            var filteredIslemler = await _context.Islemler
+                .Where(i => i.Ucret < maxPrice)
+                .ToListAsync();
+
+            return Ok(filteredIslemler);
+        }
+
     }
 }

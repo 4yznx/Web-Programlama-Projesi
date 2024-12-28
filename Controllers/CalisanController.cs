@@ -1,8 +1,8 @@
-﻿using BarberShop.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using BarberShop.Models;
 
 namespace BarberShop.Controllers
 {

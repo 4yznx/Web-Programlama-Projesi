@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BarberShop.Migrations
 {
     [DbContext(typeof(BarberDbContext))]
-    partial class BarberDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241225171016_new")]
+    partial class @new
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,9 +42,6 @@ namespace BarberShop.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserID")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("CalisanID");
 
                     b.ToTable("Calisanlar");
@@ -60,30 +60,6 @@ namespace BarberShop.Migrations
                     b.HasIndex("IslemID");
 
                     b.ToTable("CalisanIslemler");
-                });
-
-            modelBuilder.Entity("BarberShop.Models.CalisanKazanclari", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
-
-                    b.Property<int>("CalisanID")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Tarih")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("ToplamKazanc")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("CalisanID");
-
-                    b.ToTable("CalisanKazanclari");
                 });
 
             modelBuilder.Entity("BarberShop.Models.Islem", b =>
@@ -371,17 +347,6 @@ namespace BarberShop.Migrations
                     b.Navigation("Islem");
                 });
 
-            modelBuilder.Entity("BarberShop.Models.CalisanKazanclari", b =>
-                {
-                    b.HasOne("BarberShop.Models.Calisan", "Calisan")
-                        .WithMany()
-                        .HasForeignKey("CalisanID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Calisan");
-                });
-
             modelBuilder.Entity("BarberShop.Models.Randevu", b =>
                 {
                     b.HasOne("BarberShop.Models.Calisan", "Calisan")
@@ -396,7 +361,7 @@ namespace BarberShop.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BarberShop.Models.Kullanici", "Kullanici")
+                    b.HasOne("BarberShop.Models.Kullanici", "kullanici")
                         .WithMany()
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -406,7 +371,7 @@ namespace BarberShop.Migrations
 
                     b.Navigation("Islem");
 
-                    b.Navigation("Kullanici");
+                    b.Navigation("kullanici");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -4,7 +4,7 @@ namespace BarberShop.ViewModels
 {
     public class VerifyEmail
     {
-        [Required(ErrorMessage = "E-posta gereklidir.")]
+        [Required(ErrorMessage = "Email gereklidir.")]
         [EmailAddress]
         public string Email { get; set; }
     }

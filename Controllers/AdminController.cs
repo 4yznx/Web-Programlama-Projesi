@@ -42,7 +42,6 @@ namespace BarberShop.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> CalisanEkle(Calisan calisan, string EmailPrefix, List<int> SecilenIslemIds)
         {
             if (calisan.CalismaBaslangici >= calisan.CalismaBitisi)
@@ -92,7 +91,6 @@ namespace BarberShop.Controllers
                     _context.Update(calisan);
                     await _context.SaveChangesAsync();
 
-                    TempData["SuccessMessage"] = $"Çalışan başarıyla eklendi! Email: {email}, Şifre: cal";
                     return RedirectToAction("CalisanListesi");
                 }
                 else
@@ -202,7 +200,6 @@ namespace BarberShop.Controllers
             return View(calisanKazanc);
         }
 
-
         public IActionResult IslemListesi()
         {
             var islemler = _context.Islemler.ToList();
@@ -288,7 +285,6 @@ namespace BarberShop.Controllers
                     Roles = roles.ToList()
                 });
             }
-
             return View(model);
         }
 

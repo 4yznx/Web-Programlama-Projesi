@@ -8,7 +8,7 @@
 
 <div class="account-container">
     <div class="account-box">
-        <h2 class="text-center mb-4">Login</h2>
+        <h2 class="text-center mb-4">Giriş yap</h2>
         <form asp-action="Login" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="mb-3">
@@ -23,7 +23,7 @@
             </div>
             <div class="float-end">
                 <a asp-controller="Account" asp-action="VerifyEmail" class="text-decoration-none">
-                    Forgot password?
+                    Şifre unuttum!
                 </a>
             </div>
             <div class="form-check mb-3">
@@ -32,12 +32,12 @@
                     @Html.DisplayNameFor(a => a.RememberMe)
                 </label>
             </div>
-            <input type="submit" value="Login" class="btn btn-success w-100 p-2" />
+            <input type="submit" value="Giriş yap" class="btn btn-success w-100 p-2" />
             <p class="text-center mt-2">
-                Don't have an account? <a asp-controller="Account" asp-action="Register" class="text-decoration-none">Register</a>
+                Hesabınız yok mu? <a asp-controller="Account" asp-action="Register" class="text-decoration-none">Kayıt ol</a>
             </p>
             <div class="text-center">
-                <a asp-controller="Home" asp-action="Index" class="text-decoration-none mt-3">Back</a>
+                <a asp-controller="Home" asp-action="Index" class="text-decoration-none mt-3">Geri dön</a>
             </div>
         </form>
     </div>
@@ -48,3 +48,35 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial.cshtml");
     }
 }
+
+<style>
+    body {
+        background: url('/images/Background.jpg') no-repeat center center fixed;
+        background-size: cover;
+        min-height: 100vh;
+    }
+
+    .account-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    .account-box {
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        padding: 2rem;
+        width: 100%;
+        max-width: 400px;
+    }
+
+        .account-box h2 {
+            font-weight: bold;
+        }
+
+    .form-check-label {
+        font-size: 0.9rem;
+    }
+</style>

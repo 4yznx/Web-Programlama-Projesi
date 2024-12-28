@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BarberShop.Controllers
 {
@@ -14,7 +14,6 @@ namespace BarberShop.Controllers
         }
         public IActionResult Index()
         {
-
             var calisanlar = _context.Calisanlar
                 .Include(c => c.CalisanIslemler)
                 .ThenInclude(ci => ci.Islem)

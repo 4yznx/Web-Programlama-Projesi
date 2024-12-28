@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace BarberShop.Models
+﻿namespace BarberShop.Models
 {
     public class Calisan
     {

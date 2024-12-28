@@ -7,61 +7,65 @@
 <div class="container my-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card shadow border-0">
-                <div class="card-header bg-gradient-primary text-black text-center">
-                    <h3 class="mb-0">Randevu oluşturunuz</h3>
+            <div class="card shadow-lg border-0">
+                <div class="card-header text-white text-center py-4" style="background: linear-gradient(120deg, #6a11cb, #2575fc);">
+                    <h3 class="mb-0"><i class="bi bi-calendar-check"></i> Randevu Al</h3>
+                    <p class="small mt-1">Lütfen randevu bilgilerinizi doldurun.</p>
                 </div>
-                <div class="card-body p-5">
+                <div class="card-body px-5 py-4 bg-light">
                     <form asp-action="RandevuAl" method="post">
                         <div class="form-group mb-4">
-                            <label asp-for="CalisanID" class="form-label fw-bold">
-                                <i class="bi bi-person-badge-fill"></i> Çalışan Seçin
+                            <label asp-for="CalisanID" class="form-label fw-semibold">
+                                <i class="bi bi-people"></i> Çalışan Seçin
                             </label>
-                            <select id="calisanSelect" asp-for="CalisanID" class="form-select rounded-pill" asp-items="ViewBag.CalisanID" required>
+                            <select id="calisanSelect" asp-for="CalisanID" class="form-select form-select-lg shadow-sm rounded" asp-items="ViewBag.CalisanID" required>
                                 <option value="">-- Çalışan Seçin --</option>
                             </select>
                             <span asp-validation-for="CalisanID" class="text-danger"></span>
                         </div>
                         <div class="form-group mb-4">
-                            <label asp-for="IslemID" class="form-label fw-bold">
-                                <i class="bi bi-gear-fill"></i> Hizmet Seçin
+                            <label asp-for="IslemID" class="form-label fw-semibold">
+                                <i class="bi bi-tools"></i> Hizmet Seçin
                             </label>
-                            <select id="islemSelect" asp-for="IslemID" class="form-select rounded-pill" asp-items="ViewBag.IslemID" required>
+                            <select id="islemSelect" asp-for="IslemID" class="form-select form-select-lg shadow-sm rounded" asp-items="ViewBag.IslemID" required>
                                 <option value="">-- Hizmet Seçin --</option>
                             </select>
                             <span asp-validation-for="IslemID" class="text-danger"></span>
                         </div>
-                        <div id="detailsDisplay" class="form-group mb-4" style="display:none;">
-                            <div class="alert alert-primary text-center fw-bold rounded-pill">
-                                <div><i class="bi bi-currency-exchange"></i> Ücret: <span id="ucret"></span> ₺</div>
-                                <div><i class="bi bi-clock-fill"></i> Süre: <span id="sure"></span> dakika</div>
+                        <div id="detailsDisplay" class="alert alert-secondary text-center rounded shadow-sm p-3 mb-4 d-none">
+                            <div>
+                                <i class="bi bi-cash-coin"></i> <strong>Ücret:</strong> <span id="ucret"></span> ₺
+                            </div>
+                            <div>
+                                <i class="bi bi-stopwatch"></i> <strong>Süre:</strong> <span id="sure"></span> dakika
                             </div>
                         </div>
                         <div class="form-group mb-4">
-                            <label for="dateSelect" class="form-label fw-bold">
-                                <i class="bi bi-calendar3"></i> Randevu Günü Seçin
+                            <label for="dateSelect" class="form-label fw-semibold">
+                                <i class="bi bi-calendar3"></i> Tarih Seçin
                             </label>
-                            <input id="dateSelect" type="date" class="form-control rounded-pill" required />
+                            <input id="dateSelect" type="date" class="form-control form-control-lg shadow-sm rounded" required />
+                            <div class="invalid-feedback">Lütfen bir tarih seçin.</div>
                         </div>
                         <div class="form-group mb-4">
-                            <label for="availableSlots" class="form-label fw-bold">
-                                <i class="bi bi-clock-fill"></i> Available Time Slots
+                            <label for="availableSlots" class="form-label fw-semibold">
+                                <i class="bi bi-clock"></i> Saat Seçin
                             </label>
-                            <select id="availableSlots" name="RandevuSaati" class="form-select rounded-pill" required>
-                                <option value="">-- Select a Time Slot --</option>
+                            <select id="availableSlots" name="RandevuSaati" class="form-select form-select-lg shadow-sm rounded" required>
+                                <option value="">-- Saat Seçin --</option>
                             </select>
                             <span asp-validation-for="RandevuSaati" class="text-danger"></span>
                         </div>
                         <div class="form-group mb-4">
-                            <label asp-for="Email" class="form-label fw-bold">
-                                <i class="bi bi-envelope-fill"></i> Email
+                            <label asp-for="Email" class="form-label fw-semibold">
+                                <i class="bi bi-envelope"></i> Email
                             </label>
-                            <input asp-for="Email" class="form-control rounded-pill" type="email" required />
+                            <input asp-for="Email" class="form-control form-control-lg shadow-sm rounded" type="email" required />
                             <span asp-validation-for="Email" class="text-danger"></span>
                         </div>
                         <div class="text-center">
-                            <button type="submit" class="btn btn-primary btn-lg px-5 rounded-pill">
-                                <i class="bi bi-check-circle-fill"></i> Randevu Al
+                            <button type="submit" class="btn btn-primary btn-lg px-4 py-2 shadow-sm rounded-pill">
+                                <i class="bi bi-check-circle"></i> Randevu Al
                             </button>
                         </div>
                     </form>
@@ -97,11 +101,11 @@
                         ucretElement.textContent = data.ucret.toFixed(2);
                         sureElement.textContent = data.sure;
 
-                        detailsDisplay.style.display = "block";
+                        detailsDisplay.classList.remove("d-none");
                     })
                     .catch(error => {
                         console.error("Error fetching details:", error);
-                        alert("An error occurred while fetching the details. Please try again.");
+                        alert("Bir hata oluştu. Lütfen tekrar deneyin.");
                     });
             }
             fetchAvailableSlots();
@@ -122,11 +126,11 @@
                     })
                     .then(slots => {
                         const slotSelect = document.getElementById("availableSlots");
-                        slotSelect.innerHTML = '<option value="">-- Select a Time Slot --</option>';
+                        slotSelect.innerHTML = '<option value="">-- Saat Seçin --</option>';
 
                         if (slots.length === 0) {
                             const noSlotsOption = document.createElement("option");
-                            noSlotsOption.textContent = "No available slots for this day.";
+                            noSlotsOption.textContent = "Bu tarih için saat yok.";
                             noSlotsOption.disabled = true;
                             slotSelect.appendChild(noSlotsOption);
                         } else {
@@ -140,7 +144,7 @@
                     })
                     .catch(error => {
                         console.error("Error fetching available slots:", error);
-                        alert("An error occurred while fetching available slots. Please try again.");
+                        alert("Bir hata oluştu. Lütfen tekrar deneyin.");
                     });
             }
         }

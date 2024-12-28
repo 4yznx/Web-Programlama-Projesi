@@ -15,10 +15,6 @@ namespace BarberShop.Controllers
             this.signInManager = signInManager;
             this.userManager = userManager;
         }
-        public IActionResult AccessDenied()
-        {
-            return View();
-        }
 
         public IActionResult Register()
         {
@@ -56,14 +52,12 @@ namespace BarberShop.Controllers
             return View(model);
         }
 
-        public IActionResult Login(string returnUrl = null)
+        public IActionResult Login ()
         {
-            ViewData["ReturnUrl"] = returnUrl; // Pass the return URL to the view
             return View();
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(Login model, string returnUrl = null)
         {
             if (ModelState.IsValid)
@@ -86,9 +80,9 @@ namespace BarberShop.Controllers
                         if (role == "Calisan")
                             return RedirectToAction("Index", "Calisan");
                         if (role == "Kullanici")
-                            return Redirect(returnUrl ?? Url.Action("Index", "Home"));
+                            return RedirectToAction("Index", "Home");
 
-                        ModelState.AddModelError("", "Geçersiz rol.");
+                        ModelState.AddModelError("", "Geçersiz");
                     }
                 }
                 else
@@ -96,8 +90,6 @@ namespace BarberShop.Controllers
                     ModelState.AddModelError("", "Email veya şifre yanlış!");
                 }
             }
-
-            ViewData["ReturnUrl"] = returnUrl;
             return View(model);
         }
 
@@ -163,12 +155,12 @@ namespace BarberShop.Controllers
                     }
                     else
                     {
-                        ModelState.AddModelError("", "Failed to remove the password.");
+                        ModelState.AddModelError("", "Şifre kaldırılamadı.");
                     }
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Email not found!");
+                    ModelState.AddModelError("", "Email bulunamadı!");
                 }
             }
 
@@ -180,6 +172,10 @@ namespace BarberShop.Controllers
             await signInManager.SignOutAsync();
             HttpContext.Session.Clear();
             return RedirectToAction("Index", "Home");
+        }
+        public IActionResult AccessDenied()
+        {
+            return View();
         }
     }
 }

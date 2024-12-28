@@ -25,7 +25,6 @@ namespace BarberShop.Controllers
 
             return View(randevular);
         }
-
         public async Task<IActionResult> Randevularim()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -46,14 +45,13 @@ namespace BarberShop.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> RandevuAl(Randevu randevu)
         {
             var calisan = await _context.Calisanlar.FindAsync(randevu.CalisanID);
             var islem = await _context.Islemler.FindAsync(randevu.IslemID);
 
             if (calisan == null || islem == null)
-                return BadRequest("Invalid Çalışan or İşlem selected.");
+                return BadRequest("Geçersiz Çalışan veya İşlem seçildi.");
 
             var appointments = await _context.Randevular
                 .Include(r => r.Islem)
@@ -64,7 +62,7 @@ namespace BarberShop.Controllers
 
             if (!availableSlots.Contains(randevu.RandevuSaati))
             {
-                ModelState.AddModelError("RandevuSaati", "The selected time slot is no longer available.");
+                ModelState.AddModelError("RandevuSaati", "Seçilen zaman aralığı artık mevcut değil.");
                 return View(randevu);
             }
 

@@ -15,7 +15,7 @@ namespace BarberShop.Controllers
         {
             _httpClient = new HttpClient
             {
-                BaseAddress = new Uri("https://localhost:7085/api/IslemApi/")
+                BaseAddress = new Uri("https://localhost:7085/api/Api/")
             };
         }
 
@@ -99,5 +99,18 @@ namespace BarberShop.Controllers
             ModelState.AddModelError(string.Empty, "An error occurred while deleting the record.");
             return View("Index");
         }
+
+        public async Task<IActionResult> FilterByPrice(decimal maxPrice)
+        {
+            var response = await _httpClient.GetAsync($"filter-by-price?maxPrice={maxPrice}");
+            if (response.IsSuccessStatusCode)
+            {
+                var jsonData = await response.Content.ReadAsStringAsync();
+                var filteredIslemler = JsonConvert.DeserializeObject<List<Islem>>(jsonData);
+                return View(filteredIslemler);
+            }
+            return View(new List<Islem>());
+        }
+
     }
 }

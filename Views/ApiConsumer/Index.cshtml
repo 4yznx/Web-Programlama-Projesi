@@ -8,9 +8,14 @@
 <div class="container my-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="text-center mb-0"> API İşlem Listesi</h2>
-        <a asp-action="Create" class="btn btn-primary">
-            <i class="bi bi-plus-circle"></i> Yeni İşlem Ekle
-        </a>
+        <div>
+            <a asp-action="FilterByPrice" asp-route-maxPrice="400" class="btn btn-secondary me-3">
+                <i class="bi bi-filter"></i> 400 TL'den Ucuz İşlemleri Göster
+            </a>
+            <a asp-action="Create" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> Yeni İşlem Ekle
+            </a>
+        </div>
     </div>
 
     <div class="table-responsive shadow">

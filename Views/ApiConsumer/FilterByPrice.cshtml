@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Islem>
+@{
+    Layout = "~/Views/Admin/_LayoutAdmin.cshtml";
+}
+
+<div class="container my-5">
+    <h2 class="text-center text-primary mb-4">Filtrelenmiş İşlemler</h2>
+
+    <div class="table-responsive shadow">
+        <table class="table table-hover align-middle">
+            <thead class="bg-primary text-white">
+                <tr>
+                    <th class="text-center">İşlem Adı</th>
+                    <th class="text-center">Süre (dk)</th>
+                    <th class="text-center">Ücret (₺)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="text-center fw-bold text-dark">@item.Adi</td>
+                            <td class="text-center">@item.Sure</td>
+                            <td class="text-center text-success fw-bold">@item.Ucret.ToString("0.00")</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="3" class="text-center text-danger fw-bold">Hiçbir işlem bulunamadı.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
